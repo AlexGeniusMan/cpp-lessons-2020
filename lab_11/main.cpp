@@ -1,114 +1,129 @@
-#include<iostream>
-#include <list>
-#include <string>
-
-struct typeDirection_5 //структура 5 типа (направление, универ)
-{
-    int typeNumber;
-    std::string nameUniversity;
-    friend bool operator==(const typeDirection_5& l_eq, const typeDirection_5& r_eq);
-    friend std::ostream& operator<<(std::ostream& out, const typeDirection_5& outOb);
-};
-
-bool operator==(const typeDirection_5& l_eq, const typeDirection_5& r_eq)
-{
-    return (l_eq.typeNumber == r_eq.typeNumber) && (l_eq.nameUniversity == r_eq.nameUniversity);
-}
-
-std::ostream& operator<<(std::ostream& out, const typeDirection_5& outOb)
-{
-    out << "[" << outOb.typeNumber << ", " << outOb.nameUniversity << "]";
-    return out;
-}
-
-class Hash
-{
-    // Количество ковшей
-    int bucket;
-    // Указатель на массив хранения
-    std::list<typeDirection_5> *table;
-public:
-    Hash(int V);  // Конструктор
-    // вставляем ключ в хеш-таблицу
-    void insertItem(typeDirection_5 x);
-    // удаляет ключ из хеш-таблицы
-    void deleteItem(typeDirection_5 key);
-    // хеш-функция для сопоставления значений с ключом
-    int hashFunction(typeDirection_5 x);
-    //функция вывода
-    void displayHash();
-};
-
-Hash::Hash(int b)
-{
-    bucket = b;
-    table = new std::list<typeDirection_5>[bucket];
-}
-
-void Hash::insertItem(typeDirection_5 key)
-{
-    //добавление элемента по ковшу
-    int index = hashFunction(key);
-    table[index].push_back(key);
-}
-
-void Hash::deleteItem(typeDirection_5 key)
-{
-    // получаем хеш-индекс ключа
-    int index = hashFunction(key);
-    // поиск ключа
-    std::list<typeDirection_5>::iterator i;
-    for (i = table[index].begin(); i != table[index].end(); ++i)
-    {
-        if (*i == key)
-        break;
-    }
-  // если ключ найден в хеш-таблице, удалить его
-    if (i != table[index].end())
-        table[index].erase(i);
-}
-
-int Hash::hashFunction(typeDirection_5 x)
-{
-    return (x.typeNumber % bucket);
-}
-
-
-// функция для отображения значений хеш-таблицы
-
-void Hash::displayHash() {
-
-    for (int i = 0; i < bucket; i++)
-    {
-        std::cout << i;
-        for (auto x : table[i])
-            std::cout << " -> " << x;
-        std::cout << "\n";
-    }
-
-}
-
-int main()
-{
-    // массив, содержащий ключи для отображения
-    auto allOb = {
-        typeDirection_5{234523, "mirea"},
-        typeDirection_5{242525, "mgu"},
-        typeDirection_5{295226, "third"},
-        typeDirection_5{582571, "__4__"},
-        typeDirection_5{646521, "__5__"},
-        typeDirection_5{788571, "__6__"},
-        typeDirection_5{5, "__7__"}
-    };
-    // 7 - количество сегментов в хеш-таблице, произвольно
-    Hash h(7);
-    // вставляем ключи в хеш-таблицу
-    for (auto c : allOb)
-        h.insertItem(c);
-    // удалить 4 элемент
-    h.deleteItem(typeDirection_5{582571, "__4__"});
-    // вывод значений
-    h.displayHash();
-    return 0;
-
-}
+#include <iostream> 
+#include <string> 
+#include "Windows.h" 
+using namespace std; 
+class HashClass { 
+public: 
+ int quantity = 10; 
+ HashClass* Table; 
+ HashClass* save; 
+ HashClass* next = NULL; 
+ int number = 0; 
+ string fio; 
+ string adress; 
+ HashClass() { 
+ } 
+ HashClass(int number, string fio, string adress) { 
+  this->number = number; 
+  this->fio = fio; 
+  this->adress = adress; 
+ } 
+ void addElem() { 
+  cout << "������� ��������: "; 
+  int a; 
+  string b, c; 
+  cin >> a >> b >> c; 
+  HashClass* q = new HashClass(a, b, c); 
+  int index = q->number%quantity; 
+  if (Table[index].next == NULL) Table[index].next = q; 
+  else saveHashes(q); 
+ } 
+ void saveHashes(HashClass* q) { 
+  int j = quantity; 
+  save = new HashClass[quantity]; 
+  for (int i = 0; i < quantity; i++)  
+   if (Table[i].next != NULL)  
+    save[i].next = Table[i].next; 
+  while (0);{ 
+  next1: 
+   quantity++; 
+   Table = new HashClass[quantity]; 
+   for (int i = 0; i < quantity; i++)  
+    Table[i].next = NULL; 
+   int k = 0; 
+   int i = 0; 
+   while (k < j) { 
+    while (i < j) { 
+     if (save[i].next == NULL) i++; 
+     else break; 
+    } 
+    if (i >= j) break; 
+    if (Table[save[i].next->number%quantity].next == NULL)  
+     Table[save[i].next->number%quantity].next = save[i].next; 
+    else { 
+     i = -1; 
+     goto next1; 
+    } 
+    i++; 
+    k++; 
+   } 
+  qwer1: 
+   if (Table[q->number%quantity].next == NULL) Table[q->number%quantity].next = q; 
+   else if (Table[q->number%quantity].next != NULL) goto next1; 
+   goto endThis; 
+  } 
+ endThis: 
+  return; 
+ } 
+ void print() { 
+  cout << "��� �������: "<<endl; 
+  for (int i = 0; i < quantity; i++)  
+   if (Table[i].next != NULL)  
+    cout << i << "  " << Table[i].next->number << " " << endl; 
+  cout << endl; 
+ } 
+ void search() { 
+  cout << "������� ���������� � ������������ ���������� � ������� ����� ��� �����" << endl; 
+  int number; 
+  int checker = 0; 
+  string fio; 
+  string adress; 
+  cin >> number; 
+  cin >> fio; 
+  cin >> adress; 
+  for (int i = 0; i < quantity; i++) { 
+   if (Table[i].next != NULL) { 
+    if ((Table[i].next->number == number) && (Table[i].next->fio == fio) && (Table[i].next->adress == adress)) { 
+     cout << i << " " << Table[i].next->number << " " << Table[i].next->fio << " " << Table[i].next->adress << endl; 
+     checker = 1; 
+    } 
+   } 
+  } 
+  if (checker == 0) { 
+   cout << "������� �� ������" << endl; 
+  } 
+ } 
+}; 
+ 
+int main() { 
+ setlocale(0, "Russian"); 
+ SetConsoleCP(1251); 
+ SetConsoleOutputCP(1251); 
+ HashClass* m = new HashClass(); 
+ m->Table = new HashClass[m->quantity]; 
+ int ch, i = 0; 
+ do { 
+  cout << "\n ��� ������� "; 
+  cout << "\n 1. �������� �������� "; 
+  cout << "\n 2. ������� ��� ������� "; 
+  cout << "\n 3. ����� ������� "; 
+  cout << "\n 4. ��������� ���������� ��������� "; 
+  cout << "\n �������� ����������� �������: "; 
+  cin >> ch; 
+  switch (ch) 
+  { 
+  case 1: m->addElem(); 
+   break; 
+  case 2: m->print(); 
+   break; 
+  case 3: m->search(); 
+   break; 
+  case 4:  i = 1; 
+   break; 
+  } 
+ } while (i != 1); 
+ cout << endl; 
+ return 1; 
+} 
+ 
+ 

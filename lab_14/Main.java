@@ -1,23 +1,25 @@
-package com.company;
+package ru.alexgeniusman.java2020.lab_14;
 
 public class Main {
-    static char t;
+
     public static void main(String[] args) {
-	// write your code here
-        Huffman huffman=new Huffman("Shevchenko Vladimir Vladimirovich");
-        System.out.println(huffman.getCodeText());//
-        //answer:110100001001101011000001001110111110110101100110110001001110101111100011101000011011000100111010111110001110100101110101111100000
 
-        huffman.getSizeBits();//размер в битах
-     ;//кол-во символов
-        System.out.println((double) huffman.getSizeBits()/(huffman.getValueOfCharactersOfText()*8)); //коэффициент сжатия относительно aski кодов
-        System.out.println((double) huffman.getSizeBits()/(huffman.getValueOfCharactersOfText()*
-                (Math.pow(huffman.getValueOfCharactersOfText(),0.5)))); //коэффициент сжатия относительно равномерного кода. Не учитывается размер таблицы
-        System.out.println(huffman.getMediumLenght());//средняя длина кодового слова
-        System.out.println(huffman.getDisper());//дисперсия
+        QQ qq = new QQ("Ченцов Александр Борисович");
+        
+        System.out.println(qq.getCode());
 
 
+        qq.getSize();//обьём биты
+
+
+        //n символы
+        System.out.println((double) qq.getSize()/(qq.getVal()*8)); //k сжатия относительно aski кодов
+        System.out.println((double) qq.getSize()/(qq.getVal()* (Math.pow(qq.getVal(),0.5)))); //k сжатия отн равномерного кода
+
+
+
+        System.out.println(qq.getMed());//длина усреднённого кодового слова
+        System.out.println(qq.getDisp());//дисперсия
     }
-
 
 }
